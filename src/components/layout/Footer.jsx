@@ -1,4 +1,5 @@
-import { Github, Linkedin, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -23,7 +24,7 @@ export default function Footer() {
             className="text-slate-500 hover:text-accent dark:text-slate-400 dark:hover:text-accent transition-colors"
           >
             <span className="sr-only">GitHub</span>
-            <Github size={20} />
+            <FaGithub size={20} />
           </a>
           <a
             href="#"
@@ -32,7 +33,7 @@ export default function Footer() {
             className="text-slate-500 hover:text-accent dark:text-slate-400 dark:hover:text-accent transition-colors"
           >
             <span className="sr-only">LinkedIn</span>
-            <Linkedin size={20} />
+            <FaLinkedin size={20} />
           </a>
           <a
             href="mailto:hello@example.com"

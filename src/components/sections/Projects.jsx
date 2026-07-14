@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { ExternalLink, Github, Folder } from "lucide-react";
+import { ExternalLink, Folder } from "lucide-react";
+import { FaGithub } from "react-icons/fa";
 import { projects } from "../../data/portfolio";
 
 export default function Projects() {
@@ -51,7 +52,7 @@ function ProjectCard({ project, index }) {
             rel="noopener noreferrer"
             className="text-slate-500 hover:text-accent dark:text-slate-400 dark:hover:text-accent transition-colors"
           >
-            <Github size={20} />
+            <FaGithub size={20} />
           </a>
           <a
             href={project.demo}
