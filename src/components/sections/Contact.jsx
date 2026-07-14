@@ -3,22 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Button from "../ui/Button";
 
 export default function Contact() {
-  const [status, setStatus] = useState("idle"); // idle, submitting, success
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setStatus("submitting");
-    
-    // Simulate a network request for the micro-interaction
-    setTimeout(() => {
-      setStatus("success");
-      e.target.reset();
-      
-      setTimeout(() => {
-        setStatus("idle");
-      }, 3000);
-    }, 800);
-  };
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   return (
     <section id="contact" className="py-20 md:py-32 mb-10">
@@ -37,7 +22,7 @@ export default function Contact() {
             or just want to say hi, my inbox is always open.
           </p>
 
-          <form onSubmit={handleSubmit} className="space-y-6 text-left max-w-md mx-auto">
+          <form action="mailto:hello@example.com" method="POST" encType="text/plain" className="space-y-6 text-left max-w-md mx-auto" onSubmit={() => setIsSubmitting(true)}>
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                 Name
@@ -45,6 +30,7 @@ export default function Contact() {
               <input
                 type="text"
                 id="name"
+                name="name"
                 required
                 className="w-full px-4 py-3 rounded-md bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-shadow text-slate-900 dark:text-slate-50"
               />
@@ -57,6 +43,7 @@ export default function Contact() {
               <input
                 type="email"
                 id="email"
+                name="email"
                 required
                 className="w-full px-4 py-3 rounded-md bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-shadow text-slate-900 dark:text-slate-50"
               />
@@ -68,6 +55,7 @@ export default function Contact() {
               </label>
               <textarea
                 id="message"
+                name="message"
                 rows={4}
                 required
                 className="w-full px-4 py-3 rounded-md bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-shadow text-slate-900 dark:text-slate-50 resize-none"
@@ -75,46 +63,8 @@ export default function Contact() {
             </div>
 
             <div className="flex justify-center pt-4">
-              <Button 
-                type="submit" 
-                disabled={status === "submitting" || status === "success"}
-                className={`w-full relative overflow-hidden ${
-                  status === "success" ? "bg-green-500 hover:bg-green-600 text-white" : ""
-                }`}
-              >
-                <AnimatePresence mode="wait">
-                  {status === "idle" && (
-                    <motion.span
-                      key="idle"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                    >
-                      Say Hello
-                    </motion.span>
-                  )}
-                  {status === "submitting" && (
-                    <motion.span
-                      key="submitting"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                    >
-                      Sending...
-                    </motion.span>
-                  )}
-                  {status === "success" && (
-                    <motion.span
-                      key="success"
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.8 }}
-                      className="flex items-center gap-2"
-                    >
-                      Sent!
-                    </motion.span>
-                  )}
-                </AnimatePresence>
+              <Button type="submit" className="w-full relative overflow-hidden" disabled={isSubmitting}>
+                Say Hello
               </Button>
             </div>
           </form>
