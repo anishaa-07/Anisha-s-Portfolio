@@ -2,8 +2,9 @@
 @import "tailwindcss";
 
 @theme {
-  --color-accent: #84cc16;
-  --color-accent-hover: #65a30d;
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-bg-text: var(--accent-bg-text);
   --font-sans: "Inter", sans-serif;
   --font-display: "Space Grotesk", sans-serif;
 }
@@ -11,10 +12,16 @@
 @layer base {
   :root {
     color-scheme: light;
+    --accent: #4d7c0f; /* lime-700 for solid contrast on white */
+    --accent-hover: #3f6212; /* lime-800 */
+    --accent-bg-text: #ffffff; /* white text on lime-700 */
   }
   
   html.dark {
     color-scheme: dark;
+    --accent: #84cc16; /* Electric Lime for dark theme */
+    --accent-hover: #65a30d; /* lime-600 */
+    --accent-bg-text: #0f172a; /* dark slate-900 text on electric lime */
   }
 
   body {
