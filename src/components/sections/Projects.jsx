@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ExternalLink, Folder } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import { projects } from "../../data/portfolio";
+import { useHoverable } from "../../hooks/useHoverable";
 
 export default function Projects() {
   return (
@@ -32,14 +33,28 @@ export default function Projects() {
 }
 
 function ProjectCard({ project, index }) {
+  const isHoverable = useHoverable();
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      whileHover={{ y: -8 }}
-      className="bg-slate-50 dark:bg-slate-950 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow border border-slate-200 dark:border-slate-800 flex flex-col h-full group"
+      transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
+      whileHover={
+        isHoverable
+          ? {
+              y: -6,
+              scale: 1.02,
+              transition: { duration: 0.25, ease: "easeOut" }
+            }
+          : {}
+      }
+      className={`bg-slate-50 dark:bg-slate-950 rounded-xl p-6 border border-slate-200 dark:border-slate-800 flex flex-col h-full group ${
+        isHoverable
+          ? "shadow-sm hover:shadow-md transition-shadow duration-250 ease-out"
+          : "shadow-sm"
+      }`}
     >
       <div className="flex justify-between items-start mb-6">
         <div className="text-accent">
@@ -65,11 +80,18 @@ function ProjectCard({ project, index }) {
         </div>
       </div>
 
-      <h3 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-2 group-hover:text-accent transition-colors">
+      <h3 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-2 group-hover:text-accent transition-colors duration-250">
         {project.title}
         {project.status === "In Progress" && (
           <span className="inline-flex items-center ml-3 px-2.5 py-0.5 rounded-full text-xs font-medium bg-accent/10 text-accent border border-accent/20">
-            <span className="w-1.5 h-1.5 rounded-full bg-accent mr-1.5 animate-pulse"></span>
+            <span className="relative flex h-2 w-2 mr-1.5">
+              <motion.span
+                animate={{ scale: [1, 1.8, 1], opacity: [0.6, 0, 0.6] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute inline-flex h-full w-full rounded-full bg-accent"
+              />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
+            </span>
             In Progress
           </span>
         )}
@@ -83,7 +105,7 @@ function ProjectCard({ project, index }) {
         {project.tech.map((tech) => (
           <li
             key={tech}
-            className="text-xs font-mono text-slate-500 dark:text-slate-400 bg-slate-200 dark:bg-slate-800 px-2 py-1 rounded"
+            className="text-xs font-mono text-slate-500 dark:text-slate-400 bg-slate-200 dark:bg-slate-800 px-2 py-1 rounded transition-colors duration-200 hover:bg-accent/10 hover:text-accent dark:hover:bg-accent/20 dark:hover:text-accent cursor-default"
           >
             {tech}
           </li>
